@@ -1,3 +1,9 @@
 .root-content {
-  padding-top: 100px;
+  padding-top: 40px;
+}
+
+@media (min-width: 768px) {
+  .root-content {
+    padding-top: 100px;
+  }
 }
