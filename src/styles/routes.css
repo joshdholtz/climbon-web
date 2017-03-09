@@ -1,0 +1,33 @@
+.page-routes {
+  margin-top: 40px;
+  margin-bottom: 40px;
+}
+
+.page-routes .route {
+  padding: 10px;
+  background-color: #F8F8F8;
+  margin-bottom: 10px;
+}
+
+.page-routes .route img {
+  margin-bottom: 20px;
+}
+
+.page-routes .route .name {
+  height: 40px;
+  
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.page-routes .route .route-info {
+  font-size: 16px;
+}
+
+.page-routes .route .rating-info {
+  font-size: 16px;
+}
+
+.page-routes .route .rating-info:first-of-type {
+  margin-top: 40px;
+}
