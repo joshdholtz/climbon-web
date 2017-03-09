@@ -1,0 +1,9 @@
+.page-locations {
+  margin-top: 100px;
+  margin-bottom: 100px;
+}
+
+.page-locations .location {
+  padding: 10px;
+  background-color: #F8F8F8;
+}

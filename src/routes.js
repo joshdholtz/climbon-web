@@ -5,6 +5,9 @@ import App from './App';
 import Index from './components/index'
 import Login from './components/login'
 import Home from './components/home'
+import Locations from './components/locations'
+import Routes from './components/routes'
+import Reviews from './components/reviews'
 
 import auth from './auth'
 
@@ -29,5 +32,9 @@ export default (
     <IndexRoute component={Index}/>
     <Route path="login" component={Login}  onEnter={requireNonAuth} />
     <Route path="home" component={Home} onEnter={requireAuth} />
+    
+    <Route path="locations" component={Locations} />
+    <Route path="routes" component={Routes} />
+    <Route path="reviews" component={Reviews} />
   </Route>
 )

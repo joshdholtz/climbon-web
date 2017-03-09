@@ -92,9 +92,15 @@ class App extends Component {
           </Navbar.Header>
           <Navbar.Collapse>
             <Nav>
-              <NavItem eventKey={1} href="#">Gyms</NavItem>
-              <NavItem eventKey={2} href="#">Routes</NavItem>
-              <NavItem eventKey={2} href="#">Reviews</NavItem>
+              <NavItem eventKey={1}>
+                <Link to="locations">Gyms</Link>
+              </NavItem>
+              <NavItem eventKey={2}>
+                <Link to="routes">Routes</Link>
+              </NavItem>
+              <NavItem eventKey={2}>
+                <Link to="reviews">Reviews</Link>
+              </NavItem>
             </Nav>
             {this.renderRightNav(this.state.loggedIn)}
           </Navbar.Collapse>
