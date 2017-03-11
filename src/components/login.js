@@ -4,6 +4,8 @@ import { Alert, Form, FormControl, Button, FormGroup, Row, Col, ControlLabel, Im
 import { makeRequest, checkStatusJSON } from '../api'
 import auth from '../auth'
 
+import { makeValueLink } from '../helpers'
+
 import logo from '../images/logo.png'
 
 export default class Login extends Component {
@@ -18,14 +20,6 @@ export default class Login extends Component {
 
   static contextTypes = {
     router: React.PropTypes.object
-  }
-
-  onUsernameChange = (event) => {
-    this.setState({username: event.target.value})
-  }
-
-  onPasswordChange = (event) => {
-    this.setState({password: event.target.value})
   }
 
   submit = (event) => {
@@ -64,7 +58,7 @@ export default class Login extends Component {
               Username
             </Col>
             <Col sm={6}>
-              <FormControl type="username" placeholder="Username" value={this.state.username} onChange={this.onUsernameChange}/>
+              <FormControl type="text" placeholder="Username" valueLink={makeValueLink(this, 'username')}/>
             </Col>
           </FormGroup>
 
@@ -73,13 +67,13 @@ export default class Login extends Component {
               Password
             </Col>
             <Col sm={6}>
-              <FormControl type="password" placeholder="Password" value={this.state.password} onChange={this.onPasswordChange}/>
+              <FormControl type="password" placeholder="Password" valueLink={makeValueLink(this, 'password')}/>
             </Col>
           </FormGroup>
 
           <FormGroup>
             <Col smOffset={4} sm={6}>
-              <Button type="submit">
+              <Button type="submit" className="co-button">
                 Sign in
               </Button>
             </Col>

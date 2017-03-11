@@ -132,32 +132,9 @@ footer .footer-below {
 .mailchimp .form-info {
   color: #FFFFFF;
 }
-.mailchimp input {
+.mailchimp input.form-control {
   display: block;
   margin: 10px auto;
-}
-  
-.mailchimp input[type=email] {
-  padding: 5px 15px;
-  
-  border-color: #CCCCCC;
-  border-width: 1px;
-  border-radius: 4px;
-  border-style: solid;
-  
-  text-align: center;
-}
-
-.mailchimp input[type=submit] {
-  padding: 5px 15px;
-  
-  background-color: #FF6A62;
-  color: #FFFFFF;
-  
-  border-color: #FF6A62;
-  border-width: 1px;
-  border-radius: 4px;
-  border-style: solid;
-  
+  width: inherit;
   text-align: center;
 }

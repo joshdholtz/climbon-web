@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Grid, Row, Col, Image } from 'react-bootstrap';
 
+import { IndexLink, Link } from 'react-router';
+
 import { makeRequest, checkStatusJSON } from '../api'
 
 export default class Routes extends Component {
@@ -67,6 +69,13 @@ export default class Routes extends Component {
   render() {
     return (
       <Grid className="page-routes">
+        <Row>
+          <Col smOffset={1} sm={10}>
+            <div>
+              <Link to="routes/create" className="btn btn-primary">Create Route</Link>
+            </div>
+          </Col>
+        </Row>
         {
           this.state.routes.map((route) => {
              return this.renderRoute(route)

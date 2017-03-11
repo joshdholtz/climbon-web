@@ -7,6 +7,7 @@ import './index.css';
 
 import './styles/navbar-custom.css';
 import './styles/common.css';
+import './styles/button.css';
 
 import './styles/index.css';
 import './styles/home.css';

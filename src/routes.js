@@ -9,6 +9,8 @@ import Locations from './components/locations'
 import Routes from './components/routes'
 import Reviews from './components/reviews'
 
+import CreateRoute from './components/routes/create'
+
 import auth from './auth'
 
 function requireAuth(nextState, replace) {
@@ -36,5 +38,7 @@ export default (
     <Route path="locations" component={Locations} />
     <Route path="routes" component={Routes} />
     <Route path="reviews" component={Reviews} />
+    
+    <Route path="routes/create" component={CreateRoute} />
   </Route>
 )

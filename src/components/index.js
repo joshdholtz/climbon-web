@@ -14,9 +14,9 @@ export default class Index extends Component {
         <div id="mc_embed_signup">
           <form action="//climbonapp.us15.list-manage.com/subscribe/post?u=bd11d40eab151332ccc867ab7&amp;id=5348af74da" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" target="_blank">
             <div className="form-info">Subscribe For Early Access Info</div>
-            <input type="email" name="EMAIL" className="required email" id="mce-EMAIL" placeholder="Your Email"/>
+            <input type="email" name="EMAIL" className="form-control" id="mce-EMAIL" placeholder="Your Email"/>
             <input style={hiddenInputStyle} type="text" name="b_bd11d40eab151332ccc867ab7_5348af74da" tabindex="-1" value=""/>
-            <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" className="button"/>
+            <input type="submit" value="Subscribe" name="subscribe" id="mc-embedded-subscribe" className="btn btn-primary"/>
           </form>
         </div>
       </div>

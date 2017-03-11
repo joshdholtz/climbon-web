@@ -1,0 +1,11 @@
+.btn.btn-primary {
+  background-color: #FF6A62;
+  color: #FFFFFF;
+  
+  border-color: #FF6A62;
+  border-width: 1px;
+  border-radius: 4px;
+  border-style: solid;
+  
+  text-align: center;
+}
