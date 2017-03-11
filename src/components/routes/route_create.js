@@ -6,7 +6,7 @@ import auth from '../../auth'
 
 import { makeValueLink } from '../../helpers'
 
-export default class CreateRoute extends Component {
+export default class RouteCreate extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -37,15 +37,17 @@ export default class CreateRoute extends Component {
         location_id: this.state.location_id
       }})
       .then(checkStatusJSON)
-      .then( (json) => {
-        if(json.id) {
-          console.log("we created a thing", json)
+      .then( (route) => {
+        if(route.id) {
+          this.context.router.push('routes/' + route.id)
         } else {
-          console.log("error in success")
+          // TODO: Fix this later, bruh
+          alert("Could not create")
         }
       })
       .catch( (ex) => {
-        console.log("straight up error")
+        // TODO: Fix this later, bruh
+        alert("Could not create")
       })
   }
 

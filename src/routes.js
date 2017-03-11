@@ -6,10 +6,11 @@ import Index from './components/index'
 import Login from './components/login'
 import Home from './components/home'
 import Locations from './components/locations'
-import Routes from './components/routes'
 import Reviews from './components/reviews'
 
-import CreateRoute from './components/routes/create'
+import RouteIndex from './components/routes/route_index'
+import RouteShow from './components/routes/route_show'
+import RouteCreate from './components/routes/route_create'
 
 import auth from './auth'
 
@@ -36,9 +37,10 @@ export default (
     <Route path="home" component={Home} onEnter={requireAuth} />
     
     <Route path="locations" component={Locations} />
-    <Route path="routes" component={Routes} />
     <Route path="reviews" component={Reviews} />
     
-    <Route path="routes/create" component={CreateRoute} />
+    <Route path="routes" component={RouteIndex} />
+    <Route path="routes/create" component={RouteCreate} />
+    <Route path="routes/:id" component={RouteShow} />
   </Route>
 )

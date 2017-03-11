@@ -3,31 +3,32 @@ import { Grid, Row, Col, Image } from 'react-bootstrap';
 
 import { IndexLink, Link } from 'react-router';
 
-import { makeRequest, checkStatusJSON } from '../api'
+import { makeRequest, checkStatusJSON } from '../../api'
 
-export default class Routes extends Component {
+export default class RouteShow extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      routes: []
+      route_id: props.routeParams.id,
+      route: null
     };
   }
   
   componentWillMount() {
-    this.fetchRoutes()
+    this.fetchRoute()
   }
   
-  fetchRoutes() {
-    return makeRequest('/api/routes')
+  fetchRoute() {
+    return makeRequest('/api/routes/' + this.state.route_id)
       .then(checkStatusJSON)
-      .then( (routes) => {
+      .then( (route) => {
         this.setState({
-          routes: routes
+          route: route
         })
       })
       .catch( (ex) => {
         this.setState({
-          locations: []
+          route: null
         })
       })
   }
@@ -67,20 +68,13 @@ export default class Routes extends Component {
   }
   
   render() {
+    if (!this.state.route) {
+      return null
+    }
+    
     return (
       <Grid className="page-routes">
-        <Row>
-          <Col smOffset={1} sm={10}>
-            <div>
-              <Link to="routes/create" className="btn btn-primary">Create Route</Link>
-            </div>
-          </Col>
-        </Row>
-        {
-          this.state.routes.map((route) => {
-             return this.renderRoute(route)
-          })
-        }
+        {this.renderRoute(this.state.route)}
       </Grid>
     );
   }
