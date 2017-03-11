@@ -65,7 +65,7 @@ hr.star-primary:after {
 
 header {
   margin: 0px;
-  padding: 100px 0px 100px 0px;
+  padding: 80px 0px 20px 0px;
   
   background-color: #18BC9C;
 }
@@ -96,8 +96,8 @@ header .intro-text .skills {
 }
 @media (min-width: 768px) {
   header .container {
-    padding-top: 100px;
-    padding-bottom: 100px;
+    padding-top: 20px;
+    padding-bottom: 30px;
   }
   header .intro-text .name {
     font-size: 4.75em;
@@ -123,4 +123,41 @@ footer .footer-col {
 footer .footer-below {
   padding: 25px 0;
   background-color: #233140;
+}
+
+.mailchimp {
+  color: #000000;
+  margin-top: 40px;
+}
+.mailchimp .form-info {
+  color: #FFFFFF;
+}
+.mailchimp input {
+  display: block;
+  margin: 10px auto;
+}
+  
+.mailchimp input[type=email] {
+  padding: 5px 15px;
+  
+  border-color: #CCCCCC;
+  border-width: 1px;
+  border-radius: 4px;
+  border-style: solid;
+  
+  text-align: center;
+}
+
+.mailchimp input[type=submit] {
+  padding: 5px 15px;
+  
+  background-color: #FF6A62;
+  color: #FFFFFF;
+  
+  border-color: #FF6A62;
+  border-width: 1px;
+  border-radius: 4px;
+  border-style: solid;
+  
+  text-align: center;
 }
