@@ -45,16 +45,13 @@ class App extends Component {
                           <h3>Around the Web</h3>
                           <ul className="list-inline">
                               <li>
-                                  <a href="https://www.facebook.com/GetClimbOn/" className="btn-social btn-outline"><i className="fa fa-fw fa-facebook"></i></a>
+                                  <a href="https://www.facebook.com/GetClimbOn/" className="btn-social btn-outline" target="_blank"><i className="fa fa-fw fa-facebook"></i></a>
                               </li>
                               <li>
-                                  <a href="https://twitter.com/GetClimbOn" className="btn-social btn-outline"><i className="fa fa-fw fa-twitter"></i></a>
+                                  <a href="https://twitter.com/GetClimbOn" className="btn-social btn-outline" target="_blank"><i className="fa fa-fw fa-twitter"></i></a>
                               </li>
                               <li>
-                                  <a href="#" className="btn-social btn-outline"><i className="fa fa-fw fa-instagram"></i></a>
-                              </li>
-                              <li>
-                                  <a href="#" className="btn-social btn-outline"><i className="fa fa-fw fa-youtube"></i></a>
+                                  <a href="https://instagram.com/getclimbon" className="btn-social btn-outline" target="_blank"><i className="fa fa-fw fa-instagram"></i></a>
                               </li>
                           </ul>
                       </div>
