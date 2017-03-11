@@ -1,8 +1,9 @@
-export function makeValueLink(self, key) {
-  return {
-    value: self.state[key],
-    requestChange: (newValue) => {
-      self.setState({[key]: newValue})
-    }
+export function makeValue(self, key) {
+  return self.state[key]
+}
+
+export function makeOnChange(self, key) {
+  return (event) => {
+    self.setState({[key]: event.target.value})
   }
 }

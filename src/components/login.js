@@ -4,7 +4,7 @@ import { Alert, Form, FormControl, Button, FormGroup, Row, Col, ControlLabel, Im
 import { makeRequest, checkStatusJSON } from '../api'
 import auth from '../auth'
 
-import { makeValueLink } from '../helpers'
+import { makeValue, makeOnChange } from '../helpers'
 
 import logo from '../images/logo.png'
 
@@ -58,7 +58,7 @@ export default class Login extends Component {
               Username
             </Col>
             <Col sm={6}>
-              <FormControl type="text" placeholder="Username" valueLink={makeValueLink(this, 'username')}/>
+              <FormControl type="text" placeholder="Username" value={makeValue(this, 'username')} onChange={makeOnChange(this, 'username')}/>
             </Col>
           </FormGroup>
 
@@ -67,7 +67,7 @@ export default class Login extends Component {
               Password
             </Col>
             <Col sm={6}>
-              <FormControl type="password" placeholder="Password" valueLink={makeValueLink(this, 'password')}/>
+              <FormControl type="password" placeholder="Password"  value={makeValue(this, 'password')} onChange={makeOnChange(this, 'password')}/>
             </Col>
           </FormGroup>
 

@@ -4,7 +4,9 @@ import { Alert, Form, FormControl, Button, FormGroup, Row, Col, ControlLabel, Im
 import { makeRequest, checkStatusJSON } from '../../api'
 import auth from '../../auth'
 
-import { makeValueLink } from '../../helpers'
+import { makeValue, makeOnChange } from '../../helpers'
+
+// TODO: Use this - https://github.com/rkit/react-select2-wrapper
 
 export default class RouteCreate extends Component {
   constructor(props) {
@@ -15,12 +17,32 @@ export default class RouteCreate extends Component {
       type: '',
       grade: '',
       setter: '',
-      location_id: null
+      location_id: null,
+      locations: []
     };
   }
 
   static contextTypes = {
     router: React.PropTypes.object
+  }
+  
+  componentWillMount() {
+    this.fetchLocations()
+  }
+  
+  fetchLocations() {
+    return makeRequest('/api/locations')
+      .then(checkStatusJSON)
+      .then( (locations) => {
+        this.setState({
+          locations: locations
+        })
+      })
+      .catch( (ex) => {
+        this.setState({
+          locations: null
+        })
+      })
   }
 
   submit = (event) => {
@@ -66,7 +88,7 @@ export default class RouteCreate extends Component {
           {label}
         </Col>
         <Col sm={6}>
-          <FormControl type="text" placeholder={placeholder} valueLink={makeValueLink(this, stateName)}/>
+          <FormControl type="text" placeholder={placeholder} value={makeValue(this, stateName)} onChange={makeOnChange(this, stateName)}/>
         </Col>
       </FormGroup>
     )
@@ -82,7 +104,24 @@ export default class RouteCreate extends Component {
           {this.renderInput('Type', 'Type', 'type')}
           {this.renderInput('Grade', 'Grade', 'grade')}
           {this.renderInput('Setter Name', 'Setter Name', 'setter')}
-          {this.renderInput('Location ID', 'Location ID', 'location_id')}
+
+          <FormGroup controlId="formControlsSelect">
+            <Col componentClass={ControlLabel} smOffset={2} sm={2}>
+              <ControlLabel>Locations</ControlLabel>
+            </Col>
+            <Col sm={6}>
+              <FormControl componentClass="select" placeholder="-" onChange={makeOnChange(this, 'location_id')}>
+                <option key={0} value={null}>-</option>
+                {
+                  this.state.locations.map((location) => {
+                     return (
+                       <option key={location.id} value={location.id}>{location.name}</option>
+                     )
+                  })
+                }
+              </FormControl>
+            </Col>
+          </FormGroup>
 
           <FormGroup>
             <Col smOffset={4} sm={6}>
