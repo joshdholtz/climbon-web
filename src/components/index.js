@@ -50,36 +50,30 @@ export default class Index extends Component {
                         <hr className="star-primary"/>
                     </div>
                 </div>
-                <div className="row">
+                <div className="row feature">
                     <div className="col-lg-12 text-center">
                         <h3>Climbing Journal</h3>
                         <p>
-                          Something something something something<br/>
-                          Something something something something<br/>
-                          Something something something something<br/>
-                          Something something something something
+                          Log your bouldering, top rope, and sport climbs!<br/>
+                          Record grade, photos, videos, and how you felt<br/>
+                          about the route.<br/><br/>
+                          Your jornal will be kept indefinitely and can be<br/>
+                          exported by you at anytime if you would like take<br/>
+                          your data somewhere else.
                         </p>
                     </div>
                 </div>
-                <div className="row">
+                <div className="row feature">
                     <div className="col-lg-12 text-center">
                         <h3>Review Routes</h3>
                         <p>
-                          Something something something something<br/>
-                          Something something something something<br/>
-                          Something something something something<br/>
-                          Something something something something
-                        </p>
-                    </div>
-                </div>
-                <div className="row">
-                    <div className="col-lg-12 text-center">
-                        <h3>Analyze Data</h3>
-                        <p>
-                          Something something something something<br/>
-                          Something something something something<br/>
-                          Something something something something<br/>
-                          Something something something something
+                          Review routes set at your gym.<br/>
+                          Give them a rating between 1 and 5 and<br/>
+                          a suggested grade.<br/><br/>
+                          Please be considerate while leaving<br/>
+                          a comment for the route setter.<br/>
+                          Let them know what worked and<br/>
+                          what did not work.
                         </p>
                     </div>
                 </div>
