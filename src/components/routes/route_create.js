@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { Alert, Form, FormControl, Button, FormGroup, Row, Col, ControlLabel, Image } from 'react-bootstrap';
 import DatePicker from 'react-bootstrap-date-picker'
+import Dropzone from 'react-dropzone';
+import 'whatwg-fetch';
 
 import { makeRequest, checkStatusJSON } from '../../api'
 import auth from '../../auth'
@@ -21,7 +23,8 @@ export default class RouteCreate extends Component {
       setAtDate: null,
       setAtDateFormatted: null,
       location_id: null,
-      locations: []
+      locations: [],
+      files: []
     };
   }
 
@@ -47,34 +50,78 @@ export default class RouteCreate extends Component {
         })
       })
   }
+  
+  uploadFiles = (files) => {
+    console.log(files)
+    
+    let file = files[0]
+    makeRequest('/api/s3/presignedurl?name=' + file.name, {
+      method: 'GET'
+      })
+      .then(checkStatusJSON)
+      .then( (json) => {
+        if (json.url) {
+          var data = new FormData()
+          data.append('file', file)
+          return fetch(json.url, {
+            // credentials: 'include',
+            // headers: {
+            //   'Content-Type': 'binary/octet-stream'
+            // },
+            method: 'PUT',
+            body: file
+          })
+        } else {
+          // TODO: Fix this later, bruh
+          alert("Could not get presigned url")
+        }
+      })
+      .then( (something) => {
+        console.log("something", something)
+        console.log("something", something.body)
+      })
+      
+    
+    // var data = new FormData()
+    // for (let file or files) {
+    //   data.append('file', file)
+    // }
+    // 
+    // return fetch(url, {
+    //   method: 'PUT',
+    //   body: data
+    // })
+  }
 
   submit = (event) => {
     event.preventDefault();
     
-    makeRequest('/api/routes', {
-      method: 'POST',
-      body: {
-        name: this.state.name,
-        info: this.state.info,
-        type: this.state.type,
-        grade: this.state.grade,
-        setter: this.state.setter,
-        set_at: this.state.setAtDateFormatted,
-        location_id: this.state.location_id
-      }})
-      .then(checkStatusJSON)
-      .then( (route) => {
-        if(route.id) {
-          this.context.router.push('routes/' + route.id)
-        } else {
-          // TODO: Fix this later, bruh
-          alert("Could not create")
-        }
-      })
-      .catch( (ex) => {
-        // TODO: Fix this later, bruh
-        alert("Could not create")
-      })
+    this.uploadFiles(this.state.files)
+    
+    // makeRequest('/api/routes', {
+    //   method: 'POST',
+    //   body: {
+    //     name: this.state.name,
+    //     info: this.state.info,
+    //     type: this.state.type,
+    //     grade: this.state.grade,
+    //     setter: this.state.setter,
+    //     set_at: this.state.setAtDateFormatted,
+    //     location_id: this.state.location_id
+    //   }})
+    //   .then(checkStatusJSON)
+    //   .then( (route) => {
+    //     if(route.id) {
+    //       this.context.router.push('routes/' + route.id)
+    //     } else {
+    //       // TODO: Fix this later, bruh
+    //       alert("Could not create")
+    //     }
+    //   })
+    //   .catch( (ex) => {
+    //     // TODO: Fix this later, bruh
+    //     alert("Could not create")
+    //   })
   }
 
   alert() {
@@ -90,6 +137,16 @@ export default class RouteCreate extends Component {
       setAtDate: value,
       setAtDateFormatted: formattedValue
     })
+  }
+  
+  handleOnDrop = (acceptedFiles) => {
+    this.setState({
+      files: acceptedFiles
+    })
+  }
+  
+  handleOnOpenClick = () => {
+    this.refs.dropzone.open()
   }
 
   renderInput(label, placeholder, stateName) {
@@ -140,6 +197,26 @@ export default class RouteCreate extends Component {
                   })
                 }
               </FormControl>
+            </Col>
+          </FormGroup>
+          
+          <FormGroup controlId="formControlsImages">
+            <Col componentClass={ControlLabel} smOffset={2} sm={2}>
+              <ControlLabel>Image</ControlLabel>
+            </Col>
+            <Col sm={6}>
+            <div>
+              <Dropzone ref="dropzone" onDrop={this.handleOnDrop} >
+                <div>Try dropping some files here, or click to select files to upload.</div>
+              </Dropzone>
+              <button type="button" onClick={this.handleOnOpenClick}>
+                Open Dropzone
+              </button>
+              {this.state.files ? <div>
+              <h2>Uploading {this.state.files.length} files...</h2>
+                <div>{this.state.files.map((file) => <img src={file.preview} />)}</div>
+              </div> : null}
+            </div>
             </Col>
           </FormGroup>
 

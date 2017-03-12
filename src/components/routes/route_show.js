@@ -48,7 +48,7 @@ export default class RouteShow extends Component {
         <Col smOffset={1} sm={10} className="route">
           <Row>
             <Col sm={4}>
-              <Image responsive src={"https://akamai-anprod.active.com/godleypark/servlet/downloadFile.sdi?uploadedfile_id=262"} />
+              <Image responsive src={"https://s3.us-east-2.amazonaws.com/climbon-uploads/F62D722C-6BBA-473B-BDC4-1ED97685984A_profile.jpeg"} />
             </Col>
             <Col sm={4}>
               {name}
