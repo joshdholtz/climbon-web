@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Alert, Form, FormControl, Button, FormGroup, Row, Col, ControlLabel, Image } from 'react-bootstrap';
+import DatePicker from 'react-bootstrap-date-picker'
 
 import { makeRequest, checkStatusJSON } from '../../api'
 import auth from '../../auth'
@@ -17,6 +18,8 @@ export default class RouteCreate extends Component {
       type: '',
       grade: '',
       setter: '',
+      setAtDate: null,
+      setAtDateFormatted: null,
       location_id: null,
       locations: []
     };
@@ -56,6 +59,7 @@ export default class RouteCreate extends Component {
         type: this.state.type,
         grade: this.state.grade,
         setter: this.state.setter,
+        set_at: this.state.setAtDateFormatted,
         location_id: this.state.location_id
       }})
       .then(checkStatusJSON)
@@ -80,10 +84,17 @@ export default class RouteCreate extends Component {
       </Alert>
     )
   }
+  
+  handleSetAtChange = (value, formattedValue) => {
+    this.setState({
+      setAtDate: value,
+      setAtDateFormatted: formattedValue
+    })
+  }
 
   renderInput(label, placeholder, stateName) {
     return (
-      <FormGroup controlId="formHorizontalEmail">
+      <FormGroup controlId={"formHorizontal" + stateName}>
         <Col componentClass={ControlLabel} smOffset={2} sm={2}>
           {label}
         </Col>
@@ -104,6 +115,15 @@ export default class RouteCreate extends Component {
           {this.renderInput('Type', 'Type', 'type')}
           {this.renderInput('Grade', 'Grade', 'grade')}
           {this.renderInput('Setter Name', 'Setter Name', 'setter')}
+
+          <FormGroup controlId="formControlsSetAt">
+            <Col componentClass={ControlLabel} smOffset={2} sm={2}>
+              <ControlLabel>Set At</ControlLabel>
+            </Col>
+            <Col sm={6}>
+              <DatePicker dateFormat={"YYYY-MM-DD"} value={this.state.setAtDate} onChange={this.handleSetAtChange}/>
+            </Col>
+          </FormGroup>
 
           <FormGroup controlId="formControlsSelect">
             <Col componentClass={ControlLabel} smOffset={2} sm={2}>
