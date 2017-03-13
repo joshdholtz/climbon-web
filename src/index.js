@@ -16,6 +16,8 @@ import './styles/locations.css';
 import './styles/routes.css';
 import './styles/reviews.css';
 
+import './styles/route_create.css';
+
 ReactDOM.render(
   <Router history={hashHistory} routes={routes} />,
   document.getElementById('root')

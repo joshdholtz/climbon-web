@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, Form, FormControl, Button, FormGroup, Row, Col, ControlLabel, Image } from 'react-bootstrap';
+import { Alert, Form, FormControl, Button, FormGroup, Grid, Row, Col, ControlLabel, Image } from 'react-bootstrap';
 import DatePicker from 'react-bootstrap-date-picker'
 import Dropzone from 'react-dropzone';
 import 'whatwg-fetch';
@@ -51,77 +51,64 @@ export default class RouteCreate extends Component {
       })
   }
   
-  uploadFiles = (files) => {
-    console.log(files)
+  uploadImageFiles = (files) => {
+    let promises = files.map((file) => {
+      return makeRequest('/api/s3/presignedurl?name=' + file.name, {
+        method: 'GET'
+        })
+        .then(checkStatusJSON)
+        .then( (json) => {
+          if (json.url && json.presigned_url) {
+            var finalURL = json.url
+            var data = new FormData()
+            data.append('file', file)
+            return fetch(json.presigned_url, {
+              method: 'PUT',
+              body: file
+            }).then( () => {
+              console.log("finalURL", finalURL)
+              return json.url
+            })
+          } else {
+            // TODO: Fix this later, bruh
+            alert("Could not get presigned url")
+          }
+        })
+      })
     
-    let file = files[0]
-    makeRequest('/api/s3/presignedurl?name=' + file.name, {
-      method: 'GET'
-      })
-      .then(checkStatusJSON)
-      .then( (json) => {
-        if (json.url) {
-          var data = new FormData()
-          data.append('file', file)
-          return fetch(json.url, {
-            // credentials: 'include',
-            // headers: {
-            //   'Content-Type': 'binary/octet-stream'
-            // },
-            method: 'PUT',
-            body: file
-          })
-        } else {
-          // TODO: Fix this later, bruh
-          alert("Could not get presigned url")
-        }
-      })
-      .then( (something) => {
-        console.log("something", something)
-        console.log("something", something.body)
-      })
-      
-    
-    // var data = new FormData()
-    // for (let file or files) {
-    //   data.append('file', file)
-    // }
-    // 
-    // return fetch(url, {
-    //   method: 'PUT',
-    //   body: data
-    // })
+    return Promise.all(promises)
   }
 
   submit = (event) => {
     event.preventDefault();
     
-    this.uploadFiles(this.state.files)
-    
-    // makeRequest('/api/routes', {
-    //   method: 'POST',
-    //   body: {
-    //     name: this.state.name,
-    //     info: this.state.info,
-    //     type: this.state.type,
-    //     grade: this.state.grade,
-    //     setter: this.state.setter,
-    //     set_at: this.state.setAtDateFormatted,
-    //     location_id: this.state.location_id
-    //   }})
-    //   .then(checkStatusJSON)
-    //   .then( (route) => {
-    //     if(route.id) {
-    //       this.context.router.push('routes/' + route.id)
-    //     } else {
-    //       // TODO: Fix this later, bruh
-    //       alert("Could not create")
-    //     }
-    //   })
-    //   .catch( (ex) => {
-    //     // TODO: Fix this later, bruh
-    //     alert("Could not create")
-    //   })
+    this.uploadImageFiles(this.state.files).then( (imageUrls) => {
+      makeRequest('/api/routes', {
+        method: 'POST',
+        body: {
+          name: this.state.name,
+          info: this.state.info,
+          type: this.state.type,
+          grade: this.state.grade,
+          setter: this.state.setter,
+          set_at: this.state.setAtDateFormatted,
+          location_id: this.state.location_id,
+          images: imageUrls
+        }})
+        .then(checkStatusJSON)
+        .then( (route) => {
+          if(route.id) {
+            this.context.router.push('routes/' + route.id)
+          } else {
+            // TODO: Fix this later, bruh
+            alert("Could not create")
+          }
+        })
+        .catch( (ex) => {
+          // TODO: Fix this later, bruh
+          alert("Could not create")
+        })
+    })
   }
 
   alert() {
@@ -140,13 +127,10 @@ export default class RouteCreate extends Component {
   }
   
   handleOnDrop = (acceptedFiles) => {
+    let files = this.state.files.concat(acceptedFiles)
     this.setState({
-      files: acceptedFiles
+      files: files
     })
-  }
-  
-  handleOnOpenClick = () => {
-    this.refs.dropzone.open()
   }
 
   renderInput(label, placeholder, stateName) {
@@ -164,72 +148,83 @@ export default class RouteCreate extends Component {
 
   render() {
     return (
-      <div>
-        <Form  horizontal onSubmit={this.submit}>
-        
-          {this.renderInput('Route Name', 'Route Name', 'name')}
-          {this.renderInput('Info', 'Info', 'info')}
-          {this.renderInput('Type', 'Type', 'type')}
-          {this.renderInput('Grade', 'Grade', 'grade')}
-          {this.renderInput('Setter Name', 'Setter Name', 'setter')}
+      <Grid className="page-route_create">
+        <Row>
+          <Col smOffset={1} sm={10}>
+            <Row>
+              <Col smOffset={4} sm={6}>
+                <h1>Create Route</h1>
+              </Col>
+            </Row>
+            <Form  horizontal onSubmit={this.submit}>
+            
+              {this.renderInput('Route Name', 'Route Name', 'name')}
+              {this.renderInput('Info', 'Info', 'info')}
+              {this.renderInput('Type', 'Type', 'type')}
+              {this.renderInput('Grade', 'Grade', 'grade')}
+              {this.renderInput('Setter Name', 'Setter Name', 'setter')}
 
-          <FormGroup controlId="formControlsSetAt">
-            <Col componentClass={ControlLabel} smOffset={2} sm={2}>
-              <ControlLabel>Set At</ControlLabel>
-            </Col>
-            <Col sm={6}>
-              <DatePicker dateFormat={"YYYY-MM-DD"} value={this.state.setAtDate} onChange={this.handleSetAtChange}/>
-            </Col>
-          </FormGroup>
+              <FormGroup controlId="formControlsSetAt">
+                <Col componentClass={ControlLabel} smOffset={2} sm={2}>
+                  <ControlLabel>Set At</ControlLabel>
+                </Col>
+                <Col sm={6}>
+                  <DatePicker dateFormat={"YYYY-MM-DD"} value={this.state.setAtDate} onChange={this.handleSetAtChange}/>
+                </Col>
+              </FormGroup>
 
-          <FormGroup controlId="formControlsSelect">
-            <Col componentClass={ControlLabel} smOffset={2} sm={2}>
-              <ControlLabel>Locations</ControlLabel>
-            </Col>
-            <Col sm={6}>
-              <FormControl componentClass="select" placeholder="-" onChange={makeOnChange(this, 'location_id')}>
-                <option key={0} value={null}>-</option>
-                {
-                  this.state.locations.map((location) => {
-                     return (
-                       <option key={location.id} value={location.id}>{location.name}</option>
-                     )
-                  })
-                }
-              </FormControl>
-            </Col>
-          </FormGroup>
-          
-          <FormGroup controlId="formControlsImages">
-            <Col componentClass={ControlLabel} smOffset={2} sm={2}>
-              <ControlLabel>Image</ControlLabel>
-            </Col>
-            <Col sm={6}>
-            <div>
-              <Dropzone ref="dropzone" onDrop={this.handleOnDrop} >
-                <div>Try dropping some files here, or click to select files to upload.</div>
-              </Dropzone>
-              <button type="button" onClick={this.handleOnOpenClick}>
-                Open Dropzone
-              </button>
-              {this.state.files ? <div>
-              <h2>Uploading {this.state.files.length} files...</h2>
-                <div>{this.state.files.map((file) => <img src={file.preview} />)}</div>
-              </div> : null}
-            </div>
-            </Col>
-          </FormGroup>
+              <FormGroup controlId="formControlsSelect">
+                <Col componentClass={ControlLabel} smOffset={2} sm={2}>
+                  <ControlLabel>Locations</ControlLabel>
+                </Col>
+                <Col sm={6}>
+                  <FormControl componentClass="select" placeholder="-" onChange={makeOnChange(this, 'location_id')}>
+                    <option key={0} value={null}>-</option>
+                    {
+                      this.state.locations.map((location) => {
+                         return (
+                           <option key={location.id} value={location.id}>{location.name}</option>
+                         )
+                      })
+                    }
+                  </FormControl>
+                </Col>
+              </FormGroup>
+              
+              <FormGroup controlId="formControlsImages">
+                <Col componentClass={ControlLabel} smOffset={2} sm={2}>
+                  <ControlLabel>Image</ControlLabel>
+                </Col>
+                <Col sm={6}>
+                  <ul className="photo-list">
+                    <li>
+                      <Dropzone ref="dropzone" onDrop={this.handleOnDrop} className="dropzone">
+                        <div>Try dropping some files here, or click to select files to upload.</div>
+                      </Dropzone>
+                    </li>
+                    {
+                      this.state.files.map((file) => {
+                         return (
+                           <li><img src={file.preview} /></li>
+                         )
+                      })
+                    }
+                  </ul>
+                </Col>
+              </FormGroup>
 
-          <FormGroup>
-            <Col smOffset={4} sm={6}>
-              <Button type="submit">
-                Create
-              </Button>
-            </Col>
-          </FormGroup>
-          
-        </Form>
-      </div>
+              <FormGroup>
+                <Col smOffset={4} sm={6}>
+                  <Button type="submit">
+                    Create
+                  </Button>
+                </Col>
+              </FormGroup>
+              
+            </Form>
+          </Col>
+        </Row>
+      </Grid>
     );
   }
 }

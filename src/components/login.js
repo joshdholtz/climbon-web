@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Alert, Form, FormControl, Button, FormGroup, Row, Col, ControlLabel, Image } from 'react-bootstrap';
+import { Alert, Form, FormControl, Button, FormGroup, Grid, Row, Col, ControlLabel, Image } from 'react-bootstrap';
 
 import { makeRequest, checkStatusJSON } from '../api'
 import auth from '../auth'
@@ -45,41 +45,45 @@ export default class Login extends Component {
 
   render() {
     return (
-      <div>
-        {this.state.badAuth ? this.loginAlert() : null}
-        <Form  horizontal onSubmit={this.submit}>
-          <Row>
-            <Col smOffset={6} sm={2}>
-              <Image src={logo} className="login-image" responsive />
-            </Col>
-          </Row>
-          <FormGroup controlId="formHorizontalEmail">
-            <Col componentClass={ControlLabel} smOffset={2} sm={2}>
-              Username
-            </Col>
-            <Col sm={6}>
-              <FormControl type="text" placeholder="Username" value={makeValue(this, 'username')} onChange={makeOnChange(this, 'username')}/>
-            </Col>
-          </FormGroup>
+      <Grid className="page-routes">
+        <Row>
+          <Col smOffset={1} sm={10}>
+            {this.state.badAuth ? this.loginAlert() : null}
+            <Form  horizontal onSubmit={this.submit}>
+              <Row>
+                <Col smOffset={6} sm={2}>
+                  <Image src={logo} className="login-image" responsive />
+                </Col>
+              </Row>
+              <FormGroup controlId="formHorizontalEmail">
+                <Col componentClass={ControlLabel} smOffset={2} sm={2}>
+                  Username
+                </Col>
+                <Col sm={6}>
+                  <FormControl type="text" placeholder="Username" value={makeValue(this, 'username')} onChange={makeOnChange(this, 'username')}/>
+                </Col>
+              </FormGroup>
 
-          <FormGroup controlId="formHorizontalPassword">
-            <Col componentClass={ControlLabel} smOffset={2} sm={2}>
-              Password
-            </Col>
-            <Col sm={6}>
-              <FormControl type="password" placeholder="Password"  value={makeValue(this, 'password')} onChange={makeOnChange(this, 'password')}/>
-            </Col>
-          </FormGroup>
+              <FormGroup controlId="formHorizontalPassword">
+                <Col componentClass={ControlLabel} smOffset={2} sm={2}>
+                  Password
+                </Col>
+                <Col sm={6}>
+                  <FormControl type="password" placeholder="Password"  value={makeValue(this, 'password')} onChange={makeOnChange(this, 'password')}/>
+                </Col>
+              </FormGroup>
 
-          <FormGroup>
-            <Col smOffset={4} sm={6}>
-              <Button type="submit" className="co-button">
-                Sign in
-              </Button>
-            </Col>
-          </FormGroup>
-        </Form>
-      </div>
+              <FormGroup>
+                <Col smOffset={4} sm={6}>
+                  <Button type="submit" className="co-button">
+                    Sign in
+                  </Button>
+                </Col>
+              </FormGroup>
+            </Form>
+          </Col>
+        </Row>
+      </Grid>
     );
   }
 }

@@ -47,6 +47,9 @@ export default class RouteIndex extends Component {
     let type = route.type && ( <div className="route-info">Type: {route.type}</div> )
     let info = route.info && ( <div className="route-info">Info: {route.info}</div> )
     
+    let images = route.images || []
+    let image = images.length > 0 ? ( <Image responsive src={images[0]} /> ) : null
+    
     let averageRating = ( <div className="rating-info">Avg Rating: 4.5/5</div> )
     let numberOfReviews = ( <div className="rating-info">11 Reviews</div> )
     
@@ -54,9 +57,6 @@ export default class RouteIndex extends Component {
       <Row key={route.id} onClick={ () => { this.goToRoute(route) } }>
         <Col smOffset={1} sm={10} className="route">
           <Row>
-            <Col sm={4}>
-              <Image responsive src={"https://akamai-anprod.active.com/godleypark/servlet/downloadFile.sdi?uploadedfile_id=262"} />
-            </Col>
             <Col sm={4}>
               {name}
               {grade}
@@ -67,6 +67,9 @@ export default class RouteIndex extends Component {
             <Col sm={4}>
               {averageRating}
               {numberOfReviews}
+            </Col>
+            <Col sm={4}>
+              {image}
             </Col>
           </Row>
         </Col>

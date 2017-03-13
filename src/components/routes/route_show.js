@@ -43,13 +43,13 @@ export default class RouteShow extends Component {
     let averageRating = ( <div className="rating-info">Avg Rating: 4.5/5</div> )
     let numberOfReviews = ( <div className="rating-info">11 Reviews</div> )
     
+    let images = route.images || []
+    let image = images.length > 0 ? ( <Image responsive src={images[0]} /> ) : null
+    
     return (
       <Row>
         <Col smOffset={1} sm={10} className="route">
           <Row>
-            <Col sm={4}>
-              <Image responsive src={"https://s3.us-east-2.amazonaws.com/climbon-uploads/F62D722C-6BBA-473B-BDC4-1ED97685984A_profile.jpeg"} />
-            </Col>
             <Col sm={4}>
               {name}
               {grade}
@@ -60,6 +60,9 @@ export default class RouteShow extends Component {
             <Col sm={4}>
               {averageRating}
               {numberOfReviews}
+            </Col>
+            <Col sm={4}>
+              {image}
             </Col>
           </Row>
         </Col>
